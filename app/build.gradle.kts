@@ -17,11 +17,29 @@ java {
 
 plugins {
     id("application")
+    id("checkstyle")
+    // id("jvm-test-suite")
+    id("com.github.ben-manes.versions") version "0.53.0"
+    id("io.freefair.lombok") version "9.1.0"
+    id("se.patrikerdes.use-latest-versions") version "0.2.19"
+    id("com.gradleup.shadow") version "9.3.0"
+    // id("org.sonarqube") version "7.2.2.6593"
+    // id("jacoco")
 }
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+}
+
+checkstyle {
+    toolVersion = "12.3.1"
+
+    configFile = file("../config/checkstyle/checkstyle.xml")
+
+    isIgnoreFailures = true
+    maxWarnings = 0
+    maxErrors = 0
 }
 
 dependencies {
