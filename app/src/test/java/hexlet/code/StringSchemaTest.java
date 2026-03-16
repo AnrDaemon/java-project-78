@@ -102,4 +102,45 @@ public class StringSchemaTest extends FileReadingTest {
         }
         assertEquals(expected, this.schema.isValid(src), message);
     }
+
+    /**
+     * Test source data generator.
+     *
+     * @return Test arguments.
+     */
+    static Stream<Arguments> containsSourceData() {
+        return Stream.of(
+                // Null contains
+                Arguments.of(null, null, true, "Message for null valid value"), //
+                Arguments.of(null, "", true, "Message for empty valid value"), //
+                Arguments.of(null, "text", true, "Message for non-empty valid non-required value"), //
+
+                // Empty contains
+                Arguments.of("", null, false, "Message for null invalid value"), //
+                Arguments.of("", "", true, "Message for empty valid value"), //
+                Arguments.of("", "text", true, "Message for non-empty valid value"), //
+
+                // Non-zero minLength
+                Arguments.of("af", null, false, "Message for null invalid value"), //
+                Arguments.of("af", "", false, "Message for empty invalid value"), //
+                Arguments.of("af", "text", false, "Message for non-empty invalid value"), //
+                Arguments.of("af", "miaf", true, "Message for non-empty valid value") //
+        );
+    }
+
+    /**
+     * Test default generation with 2 paths.
+     *
+     * @param path1   Left file path.
+     * @param path2   Right file path.
+     * @param fixture Fixture file name.
+     */
+    @ParameterizedTest
+    @MethodSource("containsSourceData")
+    void schemaContains(String needle, String src, Boolean expected, String message) throws Exception {
+        if (needle != null) {
+            this.schema.contains(needle);
+        }
+        assertEquals(expected, this.schema.isValid(src), message);
+    }
 }
