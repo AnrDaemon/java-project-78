@@ -137,7 +137,7 @@ public class NumberSchemaTest extends FileReadingTest {
                 Arguments.of(5, 6, null, false, "Message for null invalid[5,6] value"), //
                 Arguments.of(5, 6, 0, false, "Message for zero invalid[5,6] value"), //
                 Arguments.of(5, 6, -1, false, "Message for negative invalid[5,6] value"), //
-                Arguments.of(5, 6, 2, true, "Message for positive invalid[5,6] value"), //
+                Arguments.of(5, 6, 2, false, "Message for positive invalid[5,6] value"), //
                 Arguments.of(5, 6, 5, true, "Message for positive valid[5,6] value") //
         );
     }
