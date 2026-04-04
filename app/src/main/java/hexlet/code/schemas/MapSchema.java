@@ -2,41 +2,24 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-import lombok.Getter;
-
-public final class MapSchema {
-
-    @Getter
-    private boolean isRequired = false;
-
-    @Getter
-    private Integer size = null;
-
+public final class MapSchema extends BaseSchema<Map<String, String>> {
     public MapSchema required() {
-        this.isRequired = true;
+        this.put("required", (data) -> data instanceof Map);
 
         return this;
     }
 
     public MapSchema sizeof(Integer size) {
-        this.size = size;
+        this.required();
+        this.put("required", (data) -> (data != null && data.size() == size));
 
         return this;
     }
 
-    public boolean isValid(Map data) {
-        if (this.isRequired) {
-            if (!(data instanceof Map)) {
-                return false;
-            }
-        }
+    public MapSchema shape(Map<String, BaseSchema<String>> shape) {
+        this.put("shape", (data) -> data != null && shape.entrySet().stream()
+                .allMatch((v) -> v.getValue().isValid(data.get(v.getKey()))));
 
-        if (this.size != null) {
-            if (data == null || data.size() != this.size) {
-                return false;
-            }
-        }
-
-        return true;
+        return this;
     }
 }
