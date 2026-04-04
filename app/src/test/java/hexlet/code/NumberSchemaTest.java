@@ -109,35 +109,36 @@ public class NumberSchemaTest extends FileReadingTest {
     static Stream<Arguments> hasRangeSourceData() {
         return Stream.of(
                 // Null positive
-                Arguments.of(null, null, null, true, "Message for null valid value"), //
-                Arguments.of(null, null, 0, true, "Message for zero valid value"), //
-                Arguments.of(null, null, -1, true, "Message for negative valid non-required value"), //
-                Arguments.of(null, null, 5, true, "Message for positive valid non-required value"), //
+                Arguments.of(null, null, null, true, "Message for null unchecked value"), //
+                Arguments.of(null, null, 0, true, "Message for zero unchecked value"), //
+                Arguments.of(null, null, -1, true, "Message for negative unchecked value"), //
+                Arguments.of(null, null, 5, true, "Message for positive unchecked value"), //
                 // [0, inf)
-                Arguments.of(0, null, null, false, "Message for null invalid value"), //
-                Arguments.of(0, null, 0, true, "Message for zero valid value"), //
-                Arguments.of(0, null, -1, false, "Message for negative invalid value"), //
-                Arguments.of(0, null, 5, true, "Message for positive valid value"), //
+                Arguments.of(0, null, null, false, "Message for null invalid[0,) value"), //
+                Arguments.of(0, null, 0, true, "Message for zero valid[0,) value"), //
+                Arguments.of(0, null, -1, false, "Message for negative invalid[0,) value"), //
+                Arguments.of(0, null, 5, true, "Message for positive valid[0,) value"), //
                 // (inf, 0]
-                Arguments.of(null, 0, null, false, "Message for null invalid value"), //
-                Arguments.of(null, 0, 0, true, "Message for zero valid value"), //
-                Arguments.of(null, 0, -1, true, "Message for negative valid value"), //
-                Arguments.of(null, 0, 5, false, "Message for positive invalid value"), //
+                Arguments.of(null, 0, null, false, "Message for null invalid(,0] value"), //
+                Arguments.of(null, 0, 0, true, "Message for zero valid(,0] value"), //
+                Arguments.of(null, 0, -1, true, "Message for negative valid(,0] value"), //
+                Arguments.of(null, 0, 5, false, "Message for positive invalid(,0] value"), //
                 // [0, 1]
-                Arguments.of(0, 1, null, false, "Message for null invalid value"), //
-                Arguments.of(0, 1, 0, true, "Message for zero valid value"), //
-                Arguments.of(0, 1, -1, false, "Message for negative invalid value"), //
-                Arguments.of(0, 1, 5, false, "Message for positive invalid value"), //
+                Arguments.of(0, 1, null, false, "Message for null invalid[0,1] value"), //
+                Arguments.of(0, 1, 0, true, "Message for zero valid[0,1] value"), //
+                Arguments.of(0, 1, -1, false, "Message for negative invalid[0,1] value"), //
+                Arguments.of(0, 1, 5, false, "Message for positive invalid[0,1] value"), //
                 // [-5, 5]
-                Arguments.of(-5, 5, null, false, "Message for null invalid value"), //
-                Arguments.of(-5, 5, 0, true, "Message for zero valid value"), //
-                Arguments.of(-5, 5, -1, true, "Message for negative valid value"), //
-                Arguments.of(-5, 5, 5, true, "Message for positive valid value"), //
+                Arguments.of(-5, 5, null, false, "Message for null invalid[-5,5] value"), //
+                Arguments.of(-5, 5, 0, true, "Message for zero valid[-5,5] value"), //
+                Arguments.of(-5, 5, -1, true, "Message for negative valid[-5,5] value"), //
+                Arguments.of(-5, 5, 5, true, "Message for positive valid[-5,5] value"), //
                 // [5, 6]
-                Arguments.of(5, 6, null, false, "Message for null invalid value"), //
-                Arguments.of(5, 6, 0, false, "Message for zero invalid value"), //
-                Arguments.of(5, 6, -1, false, "Message for negative invalid value"), //
-                Arguments.of(5, 6, 5, true, "Message for positive valid value") //
+                Arguments.of(5, 6, null, false, "Message for null invalid[5,6] value"), //
+                Arguments.of(5, 6, 0, false, "Message for zero invalid[5,6] value"), //
+                Arguments.of(5, 6, -1, false, "Message for negative invalid[5,6] value"), //
+                Arguments.of(5, 6, 2, true, "Message for positive invalid[5,6] value"), //
+                Arguments.of(5, 6, 5, true, "Message for positive valid[5,6] value") //
         );
     }
 

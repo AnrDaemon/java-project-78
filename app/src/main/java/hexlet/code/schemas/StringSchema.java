@@ -1,55 +1,29 @@
 package hexlet.code.schemas;
 
-import lombok.Getter;
-
-public final class StringSchema {
-
-    @Getter
-    private boolean isRequired = false;
-
-    @Getter
-    private Integer minLength = null;
-
-    @Getter
-    private String contains = null;
+public final class StringSchema extends BaseSchema<String> {
 
     public StringSchema required() {
-        this.isRequired = true;
+        this.put("required", (data) -> data != null && !data.isEmpty());
 
         return this;
     }
 
     public StringSchema minLength(int length) {
-        this.minLength = length;
+        this.put("minLength", (data) -> data != null && !(data.length() < length));
+
+        return this;
+    }
+
+    public StringSchema maxLength(int length) {
+        this.put("maxLength", (data) -> data != null && !(data.length() > length));
 
         return this;
     }
 
     public StringSchema contains(String str) {
-        this.contains = str;
+        this.put("contains", (data) -> data != null && data.contains(str));
 
         return this;
     }
 
-    public boolean isValid(String data) {
-        if (this.isRequired) {
-            if (data == null || data.isEmpty()) {
-                return false;
-            }
-        }
-
-        if (this.minLength != null) {
-            if (data == null || data.length() < this.minLength) {
-                return false;
-            }
-        }
-
-        if (this.contains != null) {
-            if (data == null || !data.contains(this.contains)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
