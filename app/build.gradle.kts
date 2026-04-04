@@ -23,8 +23,8 @@ plugins {
     id("io.freefair.lombok") version "9.1.0"
     id("se.patrikerdes.use-latest-versions") version "0.2.19"
     id("com.gradleup.shadow") version "9.3.0"
-    // id("org.sonarqube") version "7.2.2.6593"
-    // id("jacoco")
+    id("org.sonarqube") version "7.2.2.6593"
+    id("jacoco")
 }
 
 repositories {
@@ -40,6 +40,17 @@ checkstyle {
     isIgnoreFailures = true
     maxWarnings = 0
     maxErrors = 0
+}
+
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "AnrDaemon_java-project-78")
+        property("sonar.organization", "anrdaemon")
+    }
 }
 
 dependencies {
@@ -60,4 +71,26 @@ testing {
             useJUnitJupiter("5.10.2")
         }
     }
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to application.mainClass.get(),
+            "Implementation-Title" to "Validator course work",
+            "Implementation-Version" to project.version
+        )
+    }
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+tasks.register("install") {
+    dependsOn("installDist")
 }
