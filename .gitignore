@@ -6,3 +6,6 @@
 
 # Ignore Java class files
 */bin/**/*.class
+
+# Include github workflow directory
+!/.github/
