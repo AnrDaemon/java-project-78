@@ -40,7 +40,8 @@ public class StringSchemaTest {
      * @return Test arguments.
      */
     static Stream<Arguments> isRequiredSourceData() {
-        return Stream.of(//
+        return Stream.of(
+                // data
                 Arguments.of(false, null, true, "Message for null unchecked value"), //
                 Arguments.of(false, "", true, "Message for empty unchecked value"), //
                 Arguments.of(false, "text", true, "Message for non-empty unchecked value"), //
@@ -51,7 +52,12 @@ public class StringSchemaTest {
     }
 
     /**
-     * Test default generation with 2 paths.
+     * Test if schema is required.
+     *
+     * @param flag     If a shema is required.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("isRequiredSourceData")
@@ -88,7 +94,12 @@ public class StringSchemaTest {
     }
 
     /**
-     * Test default generation with 2 paths.
+     * Test minimum schema length requirement.
+     *
+     * @param length   Min schema length.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("minLengthSourceData")
@@ -125,7 +136,12 @@ public class StringSchemaTest {
     }
 
     /**
-     * Test default generation with 2 paths.
+     * Test substring requirement validator.
+     *
+     * @param needle   Substring to search for.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("containsSourceData")

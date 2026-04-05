@@ -46,7 +46,8 @@ public class MapSchemaTest {
         var a = new HashMap<>();
         a.put("0", "a");
 
-        return Stream.of(//
+        return Stream.of(
+                // data
                 Arguments.of(false, null, true, "Message for null unchecked value"), //
                 Arguments.of(false, new HashMap<>(), true, "Message for empty unchecked value"), //
                 Arguments.of(false, a, true, "Message for non-empty unchecked value"), //
@@ -137,48 +138,57 @@ public class MapSchemaTest {
 
         // Test data maps
         var emptyMap = new HashMap<String, String>();
-        var validMapMin = new HashMap<String, String>(Map.of( //
+        var validMapMin = new HashMap<String, String>(Map.of(
+                // data
                 "name", "John", //
                 "city", "Moscow" //
         ));
 
-        var validMapExtra = new HashMap<String, String>(Map.of( //
+        var validMapExtra = new HashMap<String, String>(Map.of(
+                // data
                 "name", "Alice", //
                 "city", "London", //
                 "extra", "ignored" // extra field should be ignored
         ));
 
-        var invalidMapEmptyName = new HashMap<String, String>(Map.of( //
+        var invalidMapEmptyName = new HashMap<String, String>(Map.of(
+                // data
                 "name", "", // empty string for required field
                 "city", "Paris" //
         ));
 
-        var invalidMapShortCity = new HashMap<String, String>(Map.of( //
+        var invalidMapShortCity = new HashMap<String, String>(Map.of(
+                // data
                 "name", "Bob", //
                 "city", "NY" // city too short for minLength(3)
         ));
 
-        var invalidMapMissingField = new HashMap<String, String>(Map.of( //
+        var invalidMapMissingField = new HashMap<String, String>(Map.of(
+                // data
                 "city", "Berlin" // missing 'name' field
         ));
 
         // Shape definitions
-        var shapeUnchecked = new HashMap<String, BaseSchema<String>>(Map.of( //
+        var shapeUnchecked = new HashMap<String, BaseSchema<String>>(Map.of(
+                // data
                 "name", stringSchemaUnchecked, //
                 "city", stringSchemaUnchecked //
         ));
 
-        var shapeRequired = new HashMap<String, BaseSchema<String>>(Map.of( //
+        var shapeRequired = new HashMap<String, BaseSchema<String>>(Map.of(
+                // data
                 "name", stringSchemaRequired, //
                 "city", stringSchemaUnchecked //
         ));
 
-        var shapeComplex = new HashMap<String, BaseSchema<String>>(Map.of( //
+        var shapeComplex = new HashMap<String, BaseSchema<String>>(Map.of(
+                // data
                 "name", stringSchemaRequired, //
                 "city", stringSchemaMinLength //
         ));
 
         return Stream.of(
+                // data
                 Arguments.of(new HashMap<>(), emptyMap, true, "Empty shape accepts empty map"), //
                 Arguments.of(new HashMap<>(), validMapMin, true, "Empty shape accepts any map"), //
 
