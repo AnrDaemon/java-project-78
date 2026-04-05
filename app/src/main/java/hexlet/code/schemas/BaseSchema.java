@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-abstract public class BaseSchema<T> {
+public abstract class BaseSchema<T> {
 
     private final Map<String, Predicate<T>> predicates = new LinkedHashMap<>(
             Map.ofEntries(Map.entry("default", (v) -> true)));
