@@ -15,19 +15,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 
-public class MapSchemaTest extends FileReadingTest {
+public class MapSchemaTest {
 
     private static Validator v;
 
     private MapSchema schema;
 
+    /**
+     * Prepare initial validator for tests.
+     */
     @BeforeAll
     static void init() {
-        FileReadingTest.init();
-
         v = new Validator();
     }
 
+    /**
+     * Prepare initial schema for tests.
+     */
     @BeforeEach
     void prepare() {
         this.schema = v.map();
@@ -55,10 +59,15 @@ public class MapSchemaTest extends FileReadingTest {
 
     /**
      * Test for .required() validation.
+     *
+     * @param flag     If a shema is required.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("isRequiredSourceData")
-    void schemaIsRequired(Boolean flag, Map<String, String> src, Boolean expected, String message) throws Exception {
+    void schemaIsRequired(Boolean flag, Map<String, String> src, Boolean expected, String message) {
         if (flag) {
             this.schema.required();
         }
@@ -101,10 +110,15 @@ public class MapSchemaTest extends FileReadingTest {
 
     /**
      * Test for .sizeof() validation.
+     *
+     * @param length   Required shema length.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("sizeOfSourceData")
-    void schemaIsOfSize(Integer length, Map<String, String> src, Boolean expected, String message) throws Exception {
+    void schemaIsOfSize(Integer length, Map<String, String> src, Boolean expected, String message) {
         if (length != null) {
             this.schema.sizeof(length);
         }
@@ -203,7 +217,7 @@ public class MapSchemaTest extends FileReadingTest {
     @ParameterizedTest
     @MethodSource("shapeSourceData")
     void schemaShapeValidation(Map<String, BaseSchema<String>> shape, Map<String, String> src, Boolean expected,
-            String message) throws Exception {
+            String message) {
         if (shape != null) {
             this.schema.shape(shape);
         }

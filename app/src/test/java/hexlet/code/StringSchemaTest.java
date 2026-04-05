@@ -12,19 +12,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import hexlet.code.schemas.StringSchema;
 
-public class StringSchemaTest extends FileReadingTest {
+public class StringSchemaTest {
 
     private static Validator v;
 
     private StringSchema schema;
 
+    /**
+     * Prepare initial validator for tests.
+     */
     @BeforeAll
     static void init() {
-        FileReadingTest.init();
-
         v = new Validator();
     }
 
+    /**
+     * Prepare initial schema for tests.
+     */
     @BeforeEach
     void prepare() {
         this.schema = v.string();
@@ -48,14 +52,10 @@ public class StringSchemaTest extends FileReadingTest {
 
     /**
      * Test default generation with 2 paths.
-     *
-     * @param path1   Left file path.
-     * @param path2   Right file path.
-     * @param fixture Fixture file name.
      */
     @ParameterizedTest
     @MethodSource("isRequiredSourceData")
-    void schemaIsRequired(Boolean flag, String src, Boolean expected, String message) throws Exception {
+    void schemaIsRequired(Boolean flag, String src, Boolean expected, String message) {
         if (flag) {
             this.schema.required();
         }
@@ -89,14 +89,10 @@ public class StringSchemaTest extends FileReadingTest {
 
     /**
      * Test default generation with 2 paths.
-     *
-     * @param path1   Left file path.
-     * @param path2   Right file path.
-     * @param fixture Fixture file name.
      */
     @ParameterizedTest
     @MethodSource("minLengthSourceData")
-    void schemaHasMinLength(Integer length, String src, Boolean expected, String message) throws Exception {
+    void schemaHasMinLength(Integer length, String src, Boolean expected, String message) {
         if (length != null) {
             this.schema.minLength(length);
         }
@@ -130,14 +126,10 @@ public class StringSchemaTest extends FileReadingTest {
 
     /**
      * Test default generation with 2 paths.
-     *
-     * @param path1   Left file path.
-     * @param path2   Right file path.
-     * @param fixture Fixture file name.
      */
     @ParameterizedTest
     @MethodSource("containsSourceData")
-    void schemaContains(String needle, String src, Boolean expected, String message) throws Exception {
+    void schemaContains(String needle, String src, Boolean expected, String message) {
         if (needle != null) {
             this.schema.contains(needle);
         }
