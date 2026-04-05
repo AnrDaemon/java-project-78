@@ -19,11 +19,11 @@ plugins {
     id("application")
     id("checkstyle")
     // id("jvm-test-suite")
-    id("com.github.ben-manes.versions") version "0.53.0"
-    id("io.freefair.lombok") version "9.1.0"
-    id("se.patrikerdes.use-latest-versions") version "0.2.19"
-    id("com.gradleup.shadow") version "9.3.0"
-    id("org.sonarqube") version "7.2.2.6593"
+    id("com.github.ben-manes.versions") version "0.49.0"
+    id("io.freefair.lombok") version "8.1.0"
+    id("se.patrikerdes.use-latest-versions") version "0.2.18"
+    id("com.gradleup.shadow") version "8.3.10"
+    id("org.sonarqube") version "4.0.0.2929"
     id("jacoco")
 }
 
@@ -33,7 +33,7 @@ repositories {
 }
 
 checkstyle {
-    toolVersion = "12.3.1"
+    toolVersion = "10.9.3"
 
     configFile = file("../config/checkstyle/checkstyle.xml")
 
@@ -43,7 +43,7 @@ checkstyle {
 }
 
 jacoco {
-    toolVersion = "0.8.13"
+    toolVersion = "0.8.12"
 }
 
 sonar {
@@ -68,7 +68,7 @@ testing {
         // Configure the built-in test suite
         val test by getting(JvmTestSuite::class) {
             // Use JUnit Jupiter test framework
-            useJUnitJupiter("5.10.2")
+            useJUnitJupiter("5.9.3")
         }
     }
 }
