@@ -84,6 +84,12 @@ tasks.jar {
     }
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(arrayOf(
+        "-Aproject=${project.group}/${project.name}"
+    ))
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
