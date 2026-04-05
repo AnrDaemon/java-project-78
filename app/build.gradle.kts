@@ -19,6 +19,7 @@ plugins {
     id("application")
     id("checkstyle")
     // id("jvm-test-suite")
+    id("org.gradle.plugin-compatibility") version "1.0.0"
     id("com.github.ben-manes.versions") version "0.49.0"
     id("io.freefair.lombok") version "8.1.0"
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
