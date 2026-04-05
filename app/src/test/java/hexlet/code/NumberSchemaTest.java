@@ -39,8 +39,10 @@ public class NumberSchemaTest {
      *
      * @return Test arguments.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     static Stream<Arguments> isRequiredSourceData() {
-        return Stream.of(//
+        return Stream.of(
+                // data
                 Arguments.of(false, null, true, "Message for null valid value"), //
                 Arguments.of(false, 0, true, "Message for empty valid value"), //
                 Arguments.of(false, -1, true, "Message for negative valid non-required value"), //
@@ -75,6 +77,7 @@ public class NumberSchemaTest {
      *
      * @return Test arguments.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     static Stream<Arguments> isPositiveSourceData() {
         return Stream.of(
                 // Null positive
@@ -112,6 +115,7 @@ public class NumberSchemaTest {
      *
      * @return Test arguments.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     static Stream<Arguments> isNegativeSourceData() {
         return Stream.of(
                 // Null positive
@@ -149,6 +153,7 @@ public class NumberSchemaTest {
      *
      * @return Test arguments.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     static Stream<Arguments> hasRangeSourceData() {
         return Stream.of(
                 // Null positive

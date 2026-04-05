@@ -131,6 +131,7 @@ public class MapSchemaTest {
      *
      * @return Test arguments.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     static Stream<Arguments> shapeSourceData() {
         var stringSchemaUnchecked = v.string();
         var stringSchemaRequired = v.string().required();
