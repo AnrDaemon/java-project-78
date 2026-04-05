@@ -51,6 +51,7 @@ sonar {
     properties {
         property("sonar.projectKey", "AnrDaemon_java-project-78")
         property("sonar.organization", "anrdaemon")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
 
