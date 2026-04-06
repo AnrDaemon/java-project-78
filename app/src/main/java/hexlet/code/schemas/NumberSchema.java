@@ -3,21 +3,28 @@ package hexlet.code.schemas;
 public final class NumberSchema extends BaseSchema<Integer> {
 
     public NumberSchema required() {
-        this.put("required", (data) -> data != null && data != 0);
+        this.put("required", (Integer data) -> data != null);
+
+        return this;
+    }
+
+    public NumberSchema notEmpty() {
+        this.required();
+        this.put("notempty", (Integer data) -> data != 0);
 
         return this;
     }
 
     public NumberSchema positive() {
         this.required();
-        this.put("positive", (data) -> data > 0);
+        this.put("positive", (Integer data) -> data > 0);
 
         return this;
     }
 
     public NumberSchema negative() {
         this.required();
-        this.put("negative", (data) -> data < 0);
+        this.put("negative", (Integer data) -> data < 0);
 
         return this;
     }

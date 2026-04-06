@@ -43,13 +43,13 @@ public class NumberSchemaTest {
     static Stream<Arguments> isRequiredSourceData() {
         return Stream.of(
                 // data
-                Arguments.of(false, null, true, "Message for null valid value"), //
-                Arguments.of(false, 0, true, "Message for empty valid value"), //
-                Arguments.of(false, -1, true, "Message for negative valid non-required value"), //
-                Arguments.of(false, 5, true, "Message for positive valid non-required value"), //
+                Arguments.of(false, null, true, "Message for null unchecked value"), //
+                Arguments.of(false, 0, true, "Message for empty unchecked value"), //
+                Arguments.of(false, -1, true, "Message for negative unchecked value"), //
+                Arguments.of(false, 5, true, "Message for positive vunchecked value"), //
                 //
                 Arguments.of(true, null, false, "Message for null invalid value"), //
-                Arguments.of(true, 0, false, "Message for empty invalid value"), //
+                Arguments.of(true, 0, true, "Message for empty valid value"), //
                 Arguments.of(true, -1, true, "Message for negative valid value"), //
                 Arguments.of(true, 5, true, "Message for positive valid value") //
         );
@@ -68,6 +68,44 @@ public class NumberSchemaTest {
     void schemaIsRequired(Boolean flag, Integer src, Boolean expected, String message) {
         if (flag) {
             this.schema.required();
+        }
+        assertEquals(expected, this.schema.isValid(src), message);
+    }
+
+    /**
+     * Test source data generator.
+     *
+     * @return Test arguments.
+     */
+    @SuppressWarnings("checkstyle:MagicNumber")
+    static Stream<Arguments> isNotEmptySourceData() {
+        return Stream.of(
+                // data
+                Arguments.of(false, null, true, "Message for null unchecked value"), //
+                Arguments.of(false, 0, true, "Message for empty unchecked value"), //
+                Arguments.of(false, -1, true, "Message for negative unchecked value"), //
+                Arguments.of(false, 5, true, "Message for positive vunchecked value"), //
+                //
+                Arguments.of(true, null, false, "Message for null invalid value"), //
+                Arguments.of(true, 0, false, "Message for empty invalid value"), //
+                Arguments.of(true, -1, true, "Message for negative valid value"), //
+                Arguments.of(true, 5, true, "Message for positive valid value") //
+        );
+    }
+
+    /**
+     * Test validation for required data.
+     *
+     * @param flag     If a shema is required.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
+     */
+    @ParameterizedTest
+    @MethodSource("isNotEmptySourceData")
+    void schemaIsNotEmpty(Boolean flag, Integer src, Boolean expected, String message) {
+        if (flag) {
+            this.schema.notEmpty();
         }
         assertEquals(expected, this.schema.isValid(src), message);
     }
