@@ -49,6 +49,7 @@ jacoco {
 
 sonar {
     properties {
+        property("sonar.projectName", "Hexlet.Java.m3k.Validator")
         property("sonar.projectKey", "AnrDaemon_java-project-78")
         property("sonar.organization", "anrdaemon")
         property("sonar.host.url", "https://sonarcloud.io")
