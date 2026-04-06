@@ -12,19 +12,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import hexlet.code.schemas.StringSchema;
 
-public class StringSchemaTest extends FileReadingTest {
+public class StringSchemaTest {
 
     private static Validator v;
 
     private StringSchema schema;
 
+    /**
+     * Prepare initial validator for tests.
+     */
     @BeforeAll
     static void init() {
-        FileReadingTest.init();
-
         v = new Validator();
     }
 
+    /**
+     * Prepare initial schema for tests.
+     */
     @BeforeEach
     void prepare() {
         this.schema = v.string();
@@ -36,10 +40,11 @@ public class StringSchemaTest extends FileReadingTest {
      * @return Test arguments.
      */
     static Stream<Arguments> isRequiredSourceData() {
-        return Stream.of(//
-                Arguments.of(false, null, true, "Message for null valid value"), //
-                Arguments.of(false, "", true, "Message for empty valid value"), //
-                Arguments.of(false, "text", true, "Message for non-empty valid non-required value"), //
+        return Stream.of(
+                // data
+                Arguments.of(false, null, true, "Message for null unchecked value"), //
+                Arguments.of(false, "", true, "Message for empty unchecked value"), //
+                Arguments.of(false, "text", true, "Message for non-empty unchecked value"), //
                 Arguments.of(true, null, false, "Message for null invalid value"), //
                 Arguments.of(true, "", false, "Message for empty invalid value"), //
                 Arguments.of(true, "text", true, "Message for non-empty valid value") //
@@ -47,15 +52,16 @@ public class StringSchemaTest extends FileReadingTest {
     }
 
     /**
-     * Test default generation with 2 paths.
+     * Test if schema is required.
      *
-     * @param path1   Left file path.
-     * @param path2   Right file path.
-     * @param fixture Fixture file name.
+     * @param flag     If a shema is required.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("isRequiredSourceData")
-    void schemaIsRequired(Boolean flag, String src, Boolean expected, String message) throws Exception {
+    void schemaIsRequired(Boolean flag, String src, Boolean expected, String message) {
         if (flag) {
             this.schema.required();
         }
@@ -70,33 +76,34 @@ public class StringSchemaTest extends FileReadingTest {
     static Stream<Arguments> minLengthSourceData() {
         return Stream.of(
                 // Null minLength
-                Arguments.of(null, null, true, "Message for null valid value"), //
-                Arguments.of(null, "", true, "Message for empty valid value"), //
-                Arguments.of(null, "text", true, "Message for non-empty valid non-required value"), //
+                Arguments.of(null, null, true, "Message for null unchecked value"), //
+                Arguments.of(null, "", true, "Message for empty unchecked value"), //
+                Arguments.of(null, "text", true, "Message for non-empty unchecked value"), //
 
                 // Zero minLength
-                Arguments.of(0, null, false, "Message for null invalid value"), // @TODO Find out if null string is
+                Arguments.of(0, null, false, "Message for null invalid(0) value"), // @TODO Find out if null string is
                 // valid if minLength is 0
                 Arguments.of(0, "", true, "Message for empty valid value"), //
                 Arguments.of(0, "text", true, "Message for non-empty valid value"), //
 
                 // Non-zero minLength
-                Arguments.of(1, null, false, "Message for null invalid value"), //
+                Arguments.of(1, null, false, "Message for null invalid(1) value"), //
                 Arguments.of(1, "", false, "Message for empty invalid value"), //
-                Arguments.of(1, "text", true, "Message for non-empty valid value") //
+                Arguments.of(1, "text", true, "Message for non-empty valid(1) value") //
         );
     }
 
     /**
-     * Test default generation with 2 paths.
+     * Test minimum schema length requirement.
      *
-     * @param path1   Left file path.
-     * @param path2   Right file path.
-     * @param fixture Fixture file name.
+     * @param length   Min schema length.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("minLengthSourceData")
-    void schemaHasMinLength(Integer length, String src, Boolean expected, String message) throws Exception {
+    void schemaHasMinLength(Integer length, String src, Boolean expected, String message) {
         if (length != null) {
             this.schema.minLength(length);
         }
@@ -111,9 +118,9 @@ public class StringSchemaTest extends FileReadingTest {
     static Stream<Arguments> containsSourceData() {
         return Stream.of(
                 // Null contains
-                Arguments.of(null, null, true, "Message for null valid value"), //
-                Arguments.of(null, "", true, "Message for empty valid value"), //
-                Arguments.of(null, "text", true, "Message for non-empty valid non-required value"), //
+                Arguments.of(null, null, true, "Message for null unchecked value"), //
+                Arguments.of(null, "", true, "Message for empty unchecked value"), //
+                Arguments.of(null, "text", true, "Message for non-empty unchecked value"), //
 
                 // Empty contains
                 Arguments.of("", null, false, "Message for null invalid value"), //
@@ -121,23 +128,24 @@ public class StringSchemaTest extends FileReadingTest {
                 Arguments.of("", "text", true, "Message for non-empty valid value"), //
 
                 // Non-zero minLength
-                Arguments.of("af", null, false, "Message for null invalid value"), //
+                Arguments.of("af", null, false, "Message for null invalid(nonempty) value"), //
                 Arguments.of("af", "", false, "Message for empty invalid value"), //
                 Arguments.of("af", "text", false, "Message for non-empty invalid value"), //
-                Arguments.of("af", "miaf", true, "Message for non-empty valid value") //
+                Arguments.of("af", "miaf", true, "Message for non-empty valid(nonempty) value") //
         );
     }
 
     /**
-     * Test default generation with 2 paths.
+     * Test substring requirement validator.
      *
-     * @param path1   Left file path.
-     * @param path2   Right file path.
-     * @param fixture Fixture file name.
+     * @param needle   Substring to search for.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
      */
     @ParameterizedTest
     @MethodSource("containsSourceData")
-    void schemaContains(String needle, String src, Boolean expected, String message) throws Exception {
+    void schemaContains(String needle, String src, Boolean expected, String message) {
         if (needle != null) {
             this.schema.contains(needle);
         }

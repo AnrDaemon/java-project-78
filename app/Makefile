@@ -5,8 +5,7 @@ clean:
 	./gradlew clean --info
 
 build:
-	./gradlew build
-# sonar --info
+	./gradlew build sonar --info
 
 check:
 	./gradlew check

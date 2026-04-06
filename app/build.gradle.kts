@@ -19,12 +19,13 @@ plugins {
     id("application")
     id("checkstyle")
     // id("jvm-test-suite")
-    id("com.github.ben-manes.versions") version "0.53.0"
-    id("io.freefair.lombok") version "9.1.0"
-    id("se.patrikerdes.use-latest-versions") version "0.2.19"
-    id("com.gradleup.shadow") version "9.3.0"
-    // id("org.sonarqube") version "7.2.2.6593"
-    // id("jacoco")
+    id("org.gradle.plugin-compatibility") version "1.0.0"
+    id("com.github.ben-manes.versions") version "0.49.0"
+    id("io.freefair.lombok") version "8.1.0"
+    id("se.patrikerdes.use-latest-versions") version "0.2.18"
+    id("com.gradleup.shadow") version "8.3.10"
+    id("org.sonarqube") version "4.0.0.2929"
+    id("jacoco")
 }
 
 repositories {
@@ -33,13 +34,25 @@ repositories {
 }
 
 checkstyle {
-    toolVersion = "12.3.1"
+    toolVersion = "10.9.3"
 
     configFile = file("../config/checkstyle/checkstyle.xml")
 
     isIgnoreFailures = true
     maxWarnings = 0
     maxErrors = 0
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "AnrDaemon_java-project-78")
+        property("sonar.organization", "anrdaemon")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 dependencies {
@@ -57,7 +70,35 @@ testing {
         // Configure the built-in test suite
         val test by getting(JvmTestSuite::class) {
             // Use JUnit Jupiter test framework
-            useJUnitJupiter("5.10.2")
+            useJUnitJupiter("5.9.3")
         }
     }
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to application.mainClass.get(),
+            "Implementation-Title" to "Validator course work",
+            "Implementation-Version" to project.version
+        )
+    }
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(arrayOf(
+        "-Aproject=${project.group}/${project.name}"
+    ))
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+tasks.register("install") {
+    dependsOn("installDist")
 }
