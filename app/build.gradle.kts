@@ -92,6 +92,10 @@ tasks.withType<JavaCompile> {
     ))
 }
 
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
