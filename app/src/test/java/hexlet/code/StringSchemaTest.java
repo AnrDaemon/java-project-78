@@ -115,6 +115,55 @@ public class StringSchemaTest {
      *
      * @return Test arguments.
      */
+    static Stream<Arguments> maxLengthSourceData() {
+        return Stream.of(
+                // Null maxLength
+                Arguments.of(null, null, true, "Message for null unchecked value"), //
+                Arguments.of(null, "", true, "Message for empty unchecked value"), //
+                Arguments.of(null, "a", true, "Message for non-empty short unchecked value"), //
+                Arguments.of(null, "text", true, "Message for non-empty long unchecked value"), //
+
+                // Zero maxLength
+                Arguments.of(0, null, false, "Message for null invalid(0) value"), // @TODO Find out if null string is
+                // valid if maxLength is 0
+                Arguments.of(0, "", true, "Message for empty valid value"), //
+                Arguments.of(0, "a", false, "Message for non-empty short invalid(0) value"), //
+                Arguments.of(0, "text", false, "Message for non-empty long invalid(0) value"), //
+
+                // Non-zero maxLength
+                Arguments.of(1, null, false, "Message for null invalid(1) value"), //
+                Arguments.of(1, "", true, "Message for empty valid value"), //
+                Arguments.of(1, "a", true, "Message for non-empty valid(1) value"), //
+                Arguments.of(1, "text", false, "Message for non-empty invalid(1) value"), //
+
+                // Bigger maxLength
+                Arguments.of(2, "a", true, "Message for non-empty valid(2) value"), //
+                Arguments.of(2, "text", false, "Message for non-empty invalid(2) value") //
+        );
+    }
+
+    /**
+     * Test minimum schema length requirement.
+     *
+     * @param length   Min schema length.
+     * @param src      Source schema.
+     * @param expected Expected validation result.
+     * @param message  Failed test message.
+     */
+    @ParameterizedTest
+    @MethodSource("maxLengthSourceData")
+    void schemaHasMaxLength(Integer length, String src, Boolean expected, String message) {
+        if (length != null) {
+            this.schema.maxLength(length);
+        }
+        assertEquals(expected, this.schema.isValid(src), message);
+    }
+
+    /**
+     * Test source data generator.
+     *
+     * @return Test arguments.
+     */
     static Stream<Arguments> containsSourceData() {
         return Stream.of(
                 // Null contains
