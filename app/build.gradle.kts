@@ -59,6 +59,7 @@ sonar {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    testImplementation("com.ginsberg:junit5-system-exit:2.0.2")
 }
 
 application {
@@ -72,6 +73,18 @@ testing {
         val test by getting(JvmTestSuite::class) {
             // Use JUnit Jupiter test framework
             useJUnitJupiter("5.9.3")
+
+            targets.all {
+                testTask.configure {
+                    finalizedBy(tasks.jacocoTestReport)
+
+                    jvmArgumentProviders.add(CommandLineArgumentProvider {
+                        listOf("-javaagent:${configurations.testRuntimeClasspath.get().files.find {
+                            it.name.contains("junit5-system-exit") }
+                        }")
+                    })
+                }
+            }
         }
     }
 }
@@ -90,10 +103,6 @@ tasks.withType<JavaCompile> {
     options.compilerArgs.addAll(arrayOf(
         "-Aproject=${project.group}/${project.name}"
     ))
-}
-
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.jacocoTestReport {
