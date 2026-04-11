@@ -11,7 +11,7 @@ public final class MapSchema<T> extends BaseSchema<Map<String, T>> {
 
     public MapSchema<T> sizeof(Integer size) {
         this.required();
-        this.put("sizeof", (data) -> (data != null && data.size() == size));
+        this.put("sizeof", (data) -> data.size() == size);
 
         return this;
     }
