@@ -15,6 +15,11 @@ java {
     }
 }
 
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
 plugins {
     id("java")
     id("checkstyle")
@@ -28,9 +33,10 @@ plugins {
     id("jacoco")
 }
 
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
+dependencies {
+    // This dependency is used by the application.
+    implementation(libs.guava)
+    testImplementation("com.ginsberg:junit5-system-exit:2.0.2")
 }
 
 checkstyle {
@@ -54,12 +60,6 @@ sonar {
         property("sonar.organization", "anrdaemon")
         property("sonar.host.url", "https://sonarcloud.io")
     }
-}
-
-dependencies {
-    // This dependency is used by the application.
-    implementation(libs.guava)
-    testImplementation("com.ginsberg:junit5-system-exit:2.0.2")
 }
 
 testing {
