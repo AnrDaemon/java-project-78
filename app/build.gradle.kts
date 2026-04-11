@@ -72,18 +72,6 @@ testing {
             targets.all {
                 testTask.configure {
                     finalizedBy(tasks.jacocoTestReport)
-
-                    jvmArgumentProviders.add(CommandLineArgumentProvider {
-                        val agentJar = configurations.testRuntimeClasspath.get().files
-                            .find { it.name.contains("junit5-system-exit") }
-                            ?.absolutePath
-
-                        if (agentJar != null) {
-                            listOf("-javaagent:$agentJar")
-                        } else {
-                            emptyList()
-                        }
-                    })
                 }
             }
         }
