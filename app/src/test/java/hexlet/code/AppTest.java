@@ -1,13 +1,12 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
-import com.ginsberg.junit.exit.ExpectSystemExitWithStatus;
+import static com.ginsberg.junit.exit.assertions.SystemExitAssertion.assertThatCallsSystemExit;
 
 class AppTest {
 
     @Test
-    @ExpectSystemExitWithStatus(0)
     void appHasCleanExit() {
-        App.main(new String[] {});
+        assertThatCallsSystemExit(() -> App.main(new String[] {})).withExitCode(0);
     }
 }
