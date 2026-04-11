@@ -16,7 +16,7 @@ java {
 }
 
 plugins {
-    id("application")
+    id("java")
     id("checkstyle")
     // id("jvm-test-suite")
     id("org.gradle.plugin-compatibility") version "1.0.0"
@@ -62,11 +62,6 @@ dependencies {
     testImplementation("com.ginsberg:junit5-system-exit:2.0.2")
 }
 
-application {
-    // Define the main class for the application.
-    mainClass.set("hexlet.code.App")
-}
-
 testing {
     suites {
         // Configure the built-in test suite
@@ -79,9 +74,15 @@ testing {
                     finalizedBy(tasks.jacocoTestReport)
 
                     jvmArgumentProviders.add(CommandLineArgumentProvider {
-                        listOf("-javaagent:${configurations.testRuntimeClasspath.get().files.find {
-                            it.name.contains("junit5-system-exit") }
-                        }")
+                        val agentJar = configurations.testRuntimeClasspath.get().files
+                            .find { it.name.contains("junit5-system-exit") }
+                            ?.absolutePath
+
+                        if (agentJar != null) {
+                            listOf("-javaagent:$agentJar")
+                        } else {
+                            emptyList()
+                        }
                     })
                 }
             }
@@ -92,7 +93,6 @@ testing {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to application.mainClass.get(),
             "Implementation-Title" to "Validator course work",
             "Implementation-Version" to project.version
         )
