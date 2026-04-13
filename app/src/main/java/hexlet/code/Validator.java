@@ -6,8 +6,8 @@ import hexlet.code.schemas.StringSchema;
 
 public final class Validator {
 
-    public <K, T> MapSchema<K, T> map() {
-        return new MapSchema<K, T>();
+    public MapSchema map() {
+        return new MapSchema();
     }
 
     public NumberSchema number() {

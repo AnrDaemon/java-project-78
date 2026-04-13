@@ -18,7 +18,7 @@ public class MapSchemaTest {
 
     private static Validator v;
 
-    private MapSchema<String, String> schema;
+    private MapSchema schema;
 
     /**
      * Prepare initial validator for tests.
