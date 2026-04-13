@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public final class MapSchema extends BaseSchema<Map<String, String>> {
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
     public MapSchema required() {
         this.put("required", (data) -> data instanceof Map);
 
@@ -11,14 +11,14 @@ public final class MapSchema extends BaseSchema<Map<String, String>> {
 
     public MapSchema sizeof(Integer size) {
         this.required();
-        this.put("required", (data) -> (data != null && data.size() == size));
+        this.put("sizeof", (data) -> data.size() == size);
 
         return this;
     }
 
-    public MapSchema shape(Map<String, BaseSchema<String>> shape) {
+    public <T> MapSchema shape(Map<String, BaseSchema<T>> shape) {
         this.put("shape", (data) -> data != null && shape.entrySet().stream()
-                .allMatch((v) -> v.getValue().isValid(data.get(v.getKey()))));
+                .allMatch((v) -> v.getValue().isValid((T) data.get(v.getKey()))));
 
         return this;
     }
